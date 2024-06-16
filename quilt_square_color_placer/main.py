@@ -6,6 +6,7 @@ import numpy
 
 from quilt_square_color_placer import quilt
 from quilt_square_color_placer import render_rich
+from quilt_square_color_placer import render_svg
 
 
 QUILT = quilt.Quilt(
@@ -107,7 +108,8 @@ def add_ortho_minor_constraints(
 
 
 @click.command
-def main():
+@click.option("--seed", default=1)
+def main(seed: int):
     m = cpmpy.Model()
 
     square_colors = cpmpy.intvar(
@@ -126,15 +128,16 @@ def main():
 
     solver = cpmpy.SolverLookup.get("ortools", m)
 
-    TARGET_SOLUTION_COUNT = 10
-    solutions = []
+    TARGET_SOLUTION_COUNT = 1
+    solutions: list[numpy.ndarray] = []
 
-    render_rich.render_colors(QUILT)
+    # render_rich.render_colors(QUILT)
 
-    while len(solutions) < TARGET_SOLUTION_COUNT and solver.solve(random_seed=20):
+    while len(solutions) < TARGET_SOLUTION_COUNT and solver.solve(random_seed=seed):
         soln = square_colors.value()
         solutions.append(soln)
-        render_rich.render_solution(soln, QUILT)
+        # render_rich.render_solution(soln, QUILT)
+        print(render_svg.render_solution(soln, QUILT))
         solver.maximize(
             sum([sum(square_colors != past_soln) for past_soln in solutions])
         )

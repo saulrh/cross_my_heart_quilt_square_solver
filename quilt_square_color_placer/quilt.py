@@ -43,3 +43,10 @@ class Quilt:
 
     def minor_idx(self, row, col) -> int:
         return self.major_square_count + col + (row * self.minor_width)
+
+    def rc_from_idx(self, idx: int) -> tuple[bool, int, int]:
+        if idx < self.major_square_count:
+            return (True, idx // self.major_width, idx % self.major_width)
+        else:
+            minor_idx = idx - self.major_square_count
+            return (False, minor_idx // self.minor_width, minor_idx % self.minor_width)
