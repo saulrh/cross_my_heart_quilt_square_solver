@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "quilt-square-color-placer"
+version = "0.1.0"
+description = ""
+authors = ["Saul Reynolds-Haertle <saul@saulrh.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+rich = "^13.7.1"
+click = "^8.1.7"
+cpmpy = "^0.9.20"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+quilt_square_color_placer = "quilt_square_color_placer.main:main"
