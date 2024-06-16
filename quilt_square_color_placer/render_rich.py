@@ -1,6 +1,7 @@
 import rich
 import rich.text
 
+
 def to_style(color):
     return rich.style.Style(color=color.hex_color)
 
@@ -11,7 +12,7 @@ def format_colors(q):
         result.append(f"{idx}: {color.name} ({color.count}x)", style=to_style(color))
         result.append("\n")
     return result
-    
+
 
 def format_solution(soln, q):
     result = rich.text.Text()
@@ -36,6 +37,7 @@ def format_solution(soln, q):
 
 def render_colors(q):
     rich.print(format_colors(q))
+
 
 def render_solution(soln, q):
     rich.print(format_solution(soln, q))
