@@ -13,7 +13,7 @@ import quilt_square_color_placer.render_rich
 class Color:
     name: str
     count: int
-    style: rich.style.Style
+    hex_color: int
 
 
 @dataclasses.dataclass
@@ -55,15 +55,15 @@ class QuiltInstance:
 
 QUILT = QuiltInstance(
     colors=[
-        Color("blue", 7, rich.style.Style(color="blue")),
-        Color("orange", 9, rich.style.Style(color="orange3")),
-        Color("yellow", 8, rich.style.Style(color="yellow")),
-        Color("green", 8, rich.style.Style(color="green")),
-        Color("aqua", 5, rich.style.Style(color="aquamarine3")),
-        Color("brown", 4, rich.style.Style(color="orange4")),
-        Color("red", 7, rich.style.Style(color="red")),
-        Color("purple", 8, rich.style.Style(color="purple")),
-        Color("pink", 5, rich.style.Style(color="magenta3")),
+        Color("blue", 7, "#0000ff"),
+        Color("orange", 9, "#d78700"),
+        Color("yellow", 8, "#ffff00"),
+        Color("green", 8, "#008700"),
+        Color("aqua", 5, "#5fd7af"),
+        Color("brown", 4, "#875f00"),
+        Color("red", 7, "#ff0000"),
+        Color("purple", 8, "#af00ff"),
+        Color("pink", 5, "#d700d7"),
     ],
     major_width = 6,
     major_height = 6,
