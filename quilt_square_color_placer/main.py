@@ -45,14 +45,16 @@ def major_idx(row, col):
 def minor_idx(row, col):
     return MAJOR_SQUARE_COUNT + col + (row * MINOR_WIDTH)
 
+def format_colors():
+    result = rich.text.Text()
+    for idx, color in enumerate(COLORS):
+        result.append(f"{idx}: {color.name} ({color.count}x)", style=color.style)
+        result.append("\n")
+    return result
+    
 
 def format_solution(soln):
     result = rich.text.Text()
-    for idx, color in enumerate(COLORS):
-        result.append(f"{idx}: {color.name}", style=color.style)
-        result.append("\n")
-    result.append("\n")
-    
     for row in range(MAJOR_HEIGHT):
         for col in range(MAJOR_WIDTH):
             square = soln[major_idx(row, col)]
@@ -111,8 +113,10 @@ def add_ortho_minor_constraints(square_colors, m):
 
 @click.command
 def main():
+    con = rich.console.Console()
+
     assert(sum(c.count for c in COLORS) == SQUARE_COUNT)
-    
+
     m = cpmpy.Model()
 
     square_colors = cpmpy.intvar(0, len(COLORS) - 1, name="square_colors", shape=SQUARE_COUNT)
@@ -127,15 +131,18 @@ def main():
     add_ortho_minor_constraints(square_colors, m)
     add_diagonal_constraints(square_colors, m)
 
-    has_solution = m.solve()
-    assert(has_solution)
+    solver = cpmpy.SolverLookup.get("ortools", m)
 
-
-    soln = square_colors.value()
-
-    con = rich.console.Console()
-    con.print(format_solution(soln))
+    TARGET_SOLUTION_COUNT = 3
+    solutions = []
     
+    con.print(format_colors())
+
+    while len(solutions) < TARGET_SOLUTION_COUNT and solver.solve():
+        soln = square_colors.value()
+        solutions.append(soln)
+        con.print(format_solution(soln))
+        solver.maximize(sum([sum(square_colors != past_soln) for past_soln in solutions]))
 
 
 if __name__ == "__main__":
