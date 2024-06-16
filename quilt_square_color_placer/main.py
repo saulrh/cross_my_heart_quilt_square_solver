@@ -2,6 +2,7 @@ import functools
 import sys
 import click
 import cpmpy
+import numpy
 
 from quilt_square_color_placer import quilt
 from quilt_square_color_placer import render_rich
@@ -24,7 +25,9 @@ QUILT = quilt.Quilt(
 )
 
 
-def add_diagonal_constraints(square_colors, q: quilt.Quilt, m):
+def add_diagonal_constraints(
+    square_colors: numpy.ndarray, q: quilt.Quilt, m: cpmpy.Model
+):
     for row in range(q.major_height):
         for col in range(q.major_width):
             if row - 1 >= 0 and col - 1 >= 0:
@@ -49,7 +52,9 @@ def add_diagonal_constraints(square_colors, q: quilt.Quilt, m):
                 )
 
 
-def add_ortho_major_constraints(square_colors, q: quilt.Quilt, m):
+def add_ortho_major_constraints(
+    square_colors: numpy.ndarray, q: quilt.Quilt, m: cpmpy.Model
+):
     for row in range(q.major_height):
         for col in range(q.major_width):
             if row - 1 >= 0:
@@ -74,7 +79,9 @@ def add_ortho_major_constraints(square_colors, q: quilt.Quilt, m):
                 )
 
 
-def add_ortho_minor_constraints(square_colors, q: quilt.Quilt, m):
+def add_ortho_minor_constraints(
+    square_colors: numpy.ndarray, q: quilt.Quilt, m: cpmpy.Model
+):
     for row in range(q.minor_height):
         for col in range(q.minor_width):
             if row - 1 >= 0:

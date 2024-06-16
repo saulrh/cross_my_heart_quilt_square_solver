@@ -13,6 +13,7 @@ cpmpy = "^0.9.20"
 svg-py = "^1.4.3"
 mypy = "^1.10.0"
 pytype = "^2024.4.11"
+numpy = "^2.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -25,9 +26,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 quilt_square_color_placer = "quilt_square_color_placer.main:main"
-
-[tool.mypy]
-plugins = "numpy.typing.mypy_plugin"
 
 [[tool.mypy.overrides]]
 module = "cpmpy"

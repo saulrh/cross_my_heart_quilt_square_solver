@@ -19,27 +19,27 @@ class Quilt:
         assert sum(c.count for c in self.colors) == self.square_count
 
     @functools.cached_property
-    def major_square_count(self):
+    def major_square_count(self) -> int:
         return self.major_width * self.major_height
 
     @functools.cached_property
-    def minor_width(self):
+    def minor_width(self) -> int:
         return self.major_width - 1
 
     @functools.cached_property
-    def minor_height(self):
+    def minor_height(self) -> int:
         return self.major_height - 1
 
     @functools.cached_property
-    def minor_square_count(self):
+    def minor_square_count(self) -> int:
         return self.minor_width * self.minor_height
 
     @functools.cached_property
-    def square_count(self):
+    def square_count(self) -> int:
         return self.major_square_count + self.minor_square_count
 
-    def major_idx(self, row, col):
+    def major_idx(self, row, col) -> int:
         return col + (row * self.major_width)
 
-    def minor_idx(self, row, col):
+    def minor_idx(self, row, col) -> int:
         return self.major_square_count + col + (row * self.minor_width)
