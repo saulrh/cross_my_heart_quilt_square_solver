@@ -5,7 +5,6 @@ import sys
 import click
 import dataclasses
 import cpmpy
-import rich.text
 import rich.console
 
 import quilt_square_color_placer.render_rich
@@ -70,34 +69,6 @@ QUILT = QuiltInstance(
     major_height = 6,
 )
 
-def format_colors(q):
-    result = rich.text.Text()
-    for idx, color in enumerate(q.colors):
-        result.append(f"{idx}: {color.name} ({color.count}x)", style=color.style)
-        result.append("\n")
-    return result
-    
-
-def format_solution(soln, q):
-    result = rich.text.Text()
-    for row in range(q.major_height):
-        for col in range(q.major_width):
-            square = soln[q.major_idx(row, col)]
-            result.append(str(square), style=q.colors[square].style)
-            result.append(" ")
-        result.append("\n")
-
-        if row >= q.minor_height:
-            continue
-
-        result.append(" ")
-        for col in range(q.minor_width):
-            square = soln[q.minor_idx(row, col)]
-            result.append(str(square), style=q.colors[square].style)
-            result.append(" ")
-        result.append("\n")
-    return result
-
 def add_diagonal_constraints(square_colors, q, m):
     for row in range(q.major_height):
         for col in range(q.major_width):
@@ -158,12 +129,12 @@ def main():
     TARGET_SOLUTION_COUNT = 10
     solutions = []
     
-    con.print(format_colors(QUILT))
+    con.print(quilt_square_color_placer.render_rich.format_colors(QUILT))
 
     while len(solutions) < TARGET_SOLUTION_COUNT and solver.solve(random_seed=20):
         soln = square_colors.value()
         solutions.append(soln)
-        con.print(format_solution(soln, QUILT))
+        con.print(quilt_square_color_placer.render_rich.format_solution(soln, QUILT))
         solver.maximize(sum([sum(square_colors != past_soln) for past_soln in solutions]))
 
 
