@@ -32,3 +32,10 @@ def format_solution(soln, q):
             result.append(" ")
         result.append("\n")
     return result
+
+
+def render_colors(q):
+    rich.print(format_colors(q))
+
+def render_solution(soln, q):
+    rich.print(format_solution(soln, q))

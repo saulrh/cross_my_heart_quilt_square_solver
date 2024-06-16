@@ -1,11 +1,8 @@
-import rich
 import functools
-import rich.style
 import sys
 import click
 import dataclasses
 import cpmpy
-import rich.console
 
 import quilt_square_color_placer.render_rich
 
@@ -108,8 +105,6 @@ def add_ortho_minor_constraints(square_colors, q, m):
 
 @click.command
 def main():
-    con = rich.console.Console()
-
     m = cpmpy.Model()
 
     square_colors = cpmpy.intvar(0, len(QUILT.colors) - 1, name="square_colors", shape=QUILT.square_count)
@@ -129,12 +124,12 @@ def main():
     TARGET_SOLUTION_COUNT = 10
     solutions = []
     
-    con.print(quilt_square_color_placer.render_rich.format_colors(QUILT))
+    quilt_square_color_placer.render_rich.render_colors(QUILT)
 
     while len(solutions) < TARGET_SOLUTION_COUNT and solver.solve(random_seed=20):
         soln = square_colors.value()
         solutions.append(soln)
-        con.print(quilt_square_color_placer.render_rich.format_solution(soln, QUILT))
+        quilt_square_color_placer.render_rich.render_solution(soln, QUILT)
         solver.maximize(sum([sum(square_colors != past_soln) for past_soln in solutions]))
 
 
