@@ -10,6 +10,9 @@ python = "^3.11"
 rich = "^13.7.1"
 click = "^8.1.7"
 cpmpy = "^0.9.20"
+svg-py = "^1.4.3"
+mypy = "^1.10.0"
+pytype = "^2024.4.11"
 
 
 [tool.poetry.group.dev.dependencies]
